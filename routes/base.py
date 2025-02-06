@@ -1,4 +1,4 @@
-from fastapi import FastAPI , APIRouter
+from fastapi import FastAPI , APIRouter # type: ignore
 import os 
 from res.helpers.config import getSetting
  
@@ -13,8 +13,8 @@ async def welcome():
      
      app_setting = getSetting()
 
-     app_name = app_setting.APP_NAME
-     app_version = app_setting.APP_VERSIONL
+     app_name = app_setting.APP_NAME 
+     app_version = app_setting.APP_VERSION
 
      return {
          "app_name": app_name,
