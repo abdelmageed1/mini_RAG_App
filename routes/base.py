@@ -1,6 +1,6 @@
-from fastapi import FastAPI , APIRouter # type: ignore
+from fastapi import FastAPI , APIRouter ,Depends
 import os 
-from res.helpers.config import getSetting
+from res.helpers.config import getSetting ,Settings
  
 
 apiRouter = APIRouter(
@@ -9,9 +9,7 @@ apiRouter = APIRouter(
 )
 
 @apiRouter.get("/")
-async def welcome():
-     
-     app_setting = getSetting()
+async def welcome(app_setting :Settings =Depends(getSetting) ):
 
      app_name = app_setting.APP_NAME 
      app_version = app_setting.APP_VERSION
