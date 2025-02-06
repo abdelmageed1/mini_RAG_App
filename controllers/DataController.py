@@ -1,7 +1,7 @@
 from res.helpers.config import getSetting ,Settings
 from fastapi import UploadFile
 from .BaseController import BaseController
-from models.Enums.responseEnums import ResponseResult
+from  models import ResponseResult
 
 
 class DataController(BaseController):
