@@ -1,6 +1,6 @@
 from fastapi import FastAPI , APIRouter
 import os 
-from helpers.config import getSetting
+from res.helpers.config import getSetting
  
 
 apiRouter = APIRouter(
