@@ -1,5 +1,8 @@
-from fastapi import FastAPI , APIRouter ,Depends , UploadFile
+from fastapi import FastAPI , APIRouter ,Depends , UploadFile , status
+from fastapi.responses import JSONResponse
+
 import os 
+
 from res.helpers.config import getSetting ,Settings
 from res.controllers.DataController import DataController
 
@@ -10,11 +13,11 @@ dataRouter = APIRouter(
 
 @dataRouter.post('/upload/{project_id}')
 async def load_data(project_id :str, file :UploadFile , 
-                    pp_setting :Settings =Depends(getSetting) 
+                    app_setting :Settings =Depends(getSetting) 
                     ):
     
     is_valid , result = DataController().validate_upload_file(file=file)
-    
+     
     return {
         "message" : result ,
         'is_valid' : is_valid
