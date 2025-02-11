@@ -5,8 +5,10 @@ import aiofiles
 import os 
 from res.models.Enums.responseEnums import  ResponseResult
 from res.helpers.config import getSetting ,Settings
-from res.controllers import DataController, ProjectController
+# from res.controllers import DataController,  
 import logging
+from .schemes.data import ProcessRequset
+from res.controllers import DataController ,ProjectController, ProcessController
 
 logger = logging.getLogger('uvicorn.error')
 dataRouter = APIRouter(
@@ -61,3 +63,31 @@ async def load_data(project_id :str, file :UploadFile ,
                 "file_id": file_id
             }
         )
+
+
+@dataRouter.post('/process/{project_id}')
+async def process_data(project_id :str, request :ProcessRequset):
+    file_id = request.file_id
+    chunk_size = request.chunk_size
+    overlap_size = request.chunk_overlap
+
+    process_controller = ProcessController(prject_id=project_id)
+
+    file_content = process_controller.get_file_content(file_id=file_id)
+
+    file_chunks = process_controller.process_file_content(
+        file_content=file_content,
+        file_id=file_id,
+        chunk_size=chunk_size,
+        overlap_size=overlap_size
+    )
+
+    if file_chunks is None or len(file_chunks) == 0:
+        return JSONResponse(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            content={
+                "signal": ResponseResult.PROCESSING_FAILED.value
+            }
+        )
+
+    return file_chunks
