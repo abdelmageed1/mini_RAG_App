@@ -8,7 +8,7 @@ class Settings(BaseSettings):
 
     FILE_ALLOWED_UPLOAD: list
     FILE_MAX_LENGHT: ClassVar[int] = 10 
-
+    FILE_DEFAULT_CHUNK_SIZE: ClassVar[int] = 512000 
 
     class Config():
        env_file = "res/.env"
